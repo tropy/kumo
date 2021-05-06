@@ -15,6 +15,6 @@ export const SUPPORT_MATRIX = {
 
   [WIN32]: {
     x64: true,
-    x32: true
+    ia32: true
   },
 }

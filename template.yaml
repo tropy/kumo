@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  kumo
+  Tropy Web Services Template
+
+Globals:
+  Function:
+    Runtime: nodejs14.x
+
+Resources:
+  ReleasesFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: lib/releases/index.handler
+      Description: Returns Tropy release data
+      Events:
+        Releases:
+          Type: HttpApi
+          Properties:
+            Path: /releases
+            Method: get

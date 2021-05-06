@@ -44,5 +44,8 @@
       "test/support/babel.js",
       "test/support/globals.js"
     ]
+  },
+  "dependencies": {
+    "semver": "^6.3.0"
   }
 }

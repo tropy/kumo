@@ -1,5 +1,7 @@
-import releases from './releases.json'
+import { Release } from './release'
 
 export async function handler(event, context) {
-  return releases
+  let releases = await Release.all()
+
+  return releases.map(r => r.toJSON())
 }

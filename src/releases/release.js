@@ -1,9 +1,8 @@
 import assert from 'assert'
 import { parse, satisfies } from 'semver'
-import { DARWIN, LINUX, WIN32, SUPPORT_MATRIX } from './platform'
+import { Build } from './build'
 import RELEASES from './releases.json'
 
-const SQUIRREL_RELEASE = /^[A-H\d]+ \w+.nupkg \d+$/
 
 export class Release {
 
@@ -13,27 +12,28 @@ export class Release {
       [...releases]
   }
 
-  constructor({ version, platforms = {} }) {
+  constructor({ version, build = {} }) {
     this.version = parse(version)
-    this.platforms = platforms
+    this.build = Build.parse(build)
   }
 
   get channel() {
     return this.version.prerelease[0] || 'latest'
   }
 
-  getAssets(platform) {
-    return []
+  getAssets() {
+    return Object.values(this.build).flatMap(build => build.getAssets())
   }
+
 
   meets({ range, channel, platform, arch }) {
     if (range && !satisfies(this.version, range))
       return false
     if (channel && this.channel != channel)
       return false
-    if (platform && !this.platforms[platform])
+    if (platform && !this.build[platform])
       return false
-    if (arch && !this.platforms[platform][arch])
+    if (arch && !this.build[platform].arch[arch])
       return false
 
     return true
@@ -41,30 +41,16 @@ export class Release {
 
   toJSON() {
     return {
-      version: this.version?.raw,
-      assets: {
-        [DARWIN]: this.getAssets(DARWIN),
-        [LINUX]: this.getAssets(LINUX),
-        [WIN32]: this.getAssets(WIN32)
-      }
+      version: this.version?.toString(),
+      assets: this.getAssets()
     }
   }
 
   validate() {
     assert(this.version != null, 'missing version')
 
-    for (let [platform, archs] of Object.entries(this.platforms)) {
-      assert(!archs, `missing arch spec for "${platform}"`)
-
-      for (let [arch, value] of Object.entries(archs)) {
-        assert((!!value) === (!!SUPPORT_MATRIX[platform]?.[arch]),
-          `invalid target "${platform}-${arch}"`)
-
-        if (arch === WIN32) {
-          assert(SQUIRREL_RELEASE.test(value),
-            `bad squirrel release line "${value}"`)
-        }
-      }
+    for (let build of Object.values(this.build)) {
+      build.validate()
     }
 
     return this

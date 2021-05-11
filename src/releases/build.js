@@ -1,21 +1,22 @@
 import assert from 'assert'
 
 export class Build {
-  static parse(spec) {
+  static parse(spec, release) {
     return Object.entries(spec)
       .reduce((build, [platform, arch]) => (
-        build[platform] = new Build({ platform, arch }), build
+        build[platform] = new Build({ platform, arch, release }), build
       ), {})
   }
 
-  constructor({ platform, arch }) {
+  constructor({ release, platform, arch }) {
+    this.release = release
     this.platform = platform
     this.arch = arch
   }
 
   getAssets() {
     return Object.entries(this.arch).flatMap(([arch, value]) =>
-      value && getAssets(this.platform, arch)
+      value && getAssets(this.release, this.platform, arch)
     )
   }
 
@@ -47,7 +48,7 @@ export const DARWIN = 'darwin'
 export const LINUX = 'linux'
 export const WIN32 = 'win32'
 
-const SQUIRREL_RELEASE = /^[A-H\d]+ \w+.nupkg \d+$/
+const SQUIRREL_RELEASE = /^[A-H\d]+ [\w\d\.-]+\.nupkg \d+$/
 
 const SUPPORTED = {
   [DARWIN]: {
@@ -63,13 +64,60 @@ const SUPPORTED = {
   }
 }
 
-function getAssets(platform, arch) {
+function getAssets({ name, productName, version }, platform, arch) {
+  let assets = []
+
   switch (platform) {
     case DARWIN:
-      return ['.dmg']
+      if (arch === 'x64') {
+        assets.push({
+          platform,
+          arch,
+          file: `${name}-${version}.dmg`
+        })
+        assets.push({
+          platform,
+          arch,
+          file: `${name}-${version}-${platform}.zip`
+        })
+      } else {
+        assets.push({
+          platform,
+          arch,
+          file: `${name}-${version}-${arch}.dmg`
+        })
+        assets.push({
+          platform,
+          arch,
+          file: `${name}-${version}-${platform}-${arch}.zip`
+        })
+      }
+      break
+
     case LINUX:
-      return ['.bz2']
+      assets.push({
+        platform,
+        arch,
+        file: `${name}-${version}-${arch}.bz2`
+      })
+
+      if (arch === 'x64') {
+        assets.push({
+          platform,
+          arch,
+          file: `${productName}-${version}-x86_64.AppImage`
+        })
+      }
+      break
+
     case WIN32:
-      return ['.exe']
+      assets.push({
+        platform,
+        arch,
+        file: `setup-${name}-${version}-${arch}.exe`
+      })
+      break
   }
+
+  return assets
 }

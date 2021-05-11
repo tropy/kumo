@@ -12,13 +12,26 @@ export class Release {
       [...releases]
   }
 
-  constructor({ version, build = {} }) {
+  constructor({ version, product = 'Tropy', build = {} }) {
+    this.product = product
     this.version = parse(version)
-    this.build = Build.parse(build)
+    this.build = Build.parse(build, this)
   }
 
   get channel() {
     return this.version.prerelease[0] || 'latest'
+  }
+
+  get name() {
+    return (this.version.prerelease.length > 0) ?
+      `${this.product.toLowerCase()}-${this.channel}` :
+      this.product.toLowerCase()
+  }
+
+  get productName() {
+    return (this.version.prerelease.length > 0) ?
+      `${this.product} ${capitalize(this.channel)}` :
+      this.product
   }
 
   getAssets() {
@@ -56,6 +69,9 @@ export class Release {
     return this
   }
 }
+
+const capitalize = (s) =>
+  `${s[0].toUpperCase()}${s.slice(1)}`
 
 const releases = RELEASES
   .map(spec => (new Release(spec)).validate())

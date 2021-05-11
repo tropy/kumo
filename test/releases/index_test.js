@@ -6,5 +6,7 @@ describe('Releases', () => {
 
     expect(res).to.be.an('array')
     expect(res[0]).to.have.a.property('version')
+
+    console.log(res[0])
   })
 })

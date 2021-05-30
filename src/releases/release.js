@@ -3,13 +3,23 @@ import { parse, satisfies } from 'semver'
 import { Build } from './build'
 import RELEASES from './releases.json'
 
+const cache = {}
 
 export class Release {
 
+  static async load() {
+    return RELEASES
+      .map(spec => (new Release(spec)).validate())
+      .sort((a, b) => a.version.compare(b.version))
+  }
+
   static async all(query) {
+    if (!cache.releases)
+      cache.releases = await Release.load()
+
     return query ?
-      releases.filter(r => !r.meets(query)) :
-      [...releases]
+      cache.releases.filter(r => !r.meets(query)) :
+      [...cache.releases]
   }
 
   constructor({ version, product = 'Tropy', build = {} }) {
@@ -73,6 +83,3 @@ export class Release {
 const capitalize = (s) =>
   `${s[0].toUpperCase()}${s.slice(1)}`
 
-const releases = RELEASES
-  .map(spec => (new Release(spec)).validate())
-  .sort((a, b) => a.version.compare(b.version))

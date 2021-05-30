@@ -1,0 +1,35 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /releases",
+  "rawPath": "/releases",
+  "rawQueryString": "limit=1",
+  "cookies": [],
+  "headers": {
+    "Host": "localhost:3000",
+    "User-Agent": "curl/7.77.0",
+    "Accept": "*/*",
+    "X-Forwarded-Proto": "http",
+    "X-Forwarded-Port": "3000"
+  },
+  "queryStringParameters": {
+    "limit": "1"
+  },
+  "requestContext": {
+    "accountId": "123456789012",
+    "apiId": "1234567890",
+    "http": {
+      "method": "GET",
+      "path": "/releases",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "127.0.0.1",
+      "userAgent": "Custom User Agent String"
+    },
+    "requestId": "1082028c-0427-4925-9c2c-298fbb7b54c5",
+    "routeKey": "GET /releases",
+    "stage": null
+  },
+  "body": "",
+  "pathParameters": {},
+  "stageVariables": null,
+  "isBase64Encoded": false
+}

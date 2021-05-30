@@ -48,7 +48,7 @@ export const DARWIN = 'darwin'
 export const LINUX = 'linux'
 export const WIN32 = 'win32'
 
-const SQUIRREL_RELEASE = /^[A-H\d]+ [\w\d\.-]+\.nupkg \d+$/
+const SQUIRREL_RELEASE = /^[A-H\d]+ [\w\d.-]+\.nupkg \d+$/
 
 const SUPPORTED = {
   [DARWIN]: {

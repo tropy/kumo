@@ -52,7 +52,7 @@ export class Release {
   meets({ range, channel, platform, arch }) {
     if (range && !satisfies(this.version, range))
       return false
-    if (channel && this.channel != channel)
+    if (channel && this.channel !== channel)
       return false
     if (platform && !this.build[platform])
       return false

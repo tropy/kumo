@@ -5,8 +5,12 @@ describe('Releases', () => {
     let res = await handler()
 
     expect(res).to.be.an('array')
+    expect(res.length).to.be.above(1)
     expect(res[0]).to.have.a.property('version')
+  })
 
-    console.log(res[0])
+  it('accepts latest-release event', async () => {
+    let res = await handler(E('latest-release'))
+    expect(res).to.be.an('array').and.have.lengthOf(1)
   })
 })

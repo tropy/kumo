@@ -13,5 +13,19 @@
         "x64": "B9F077DA6DCC3C38EA6D8C1E36C368E372F720FB tropy-1.9.0-full.nupkg 99562347"
       }
     }
+  },
+  {
+    "version": "1.8.2",
+    "build": {
+      "darwin": {
+        "x64": true
+      },
+      "linux": {
+        "x64": true
+      },
+      "win32": {
+        "x64": "228FFA5EB8064A32269280D76B06155359AC3582 tropy-1.8.2-full.nupkg 84875127"
+      }
+    }
   }
 ]

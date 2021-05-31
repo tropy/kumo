@@ -64,7 +64,7 @@ const SUPPORTED = {
   }
 }
 
-function getAssets({ name, productName, version }, platform, arch) {
+function getAssets({ base, name, version }, platform, arch) {
   let assets = []
 
   switch (platform) {
@@ -73,23 +73,13 @@ function getAssets({ name, productName, version }, platform, arch) {
         assets.push({
           platform,
           arch,
-          file: `${name}-${version}.dmg`
-        })
-        assets.push({
-          platform,
-          arch,
-          file: `${name}-${version}-${platform}.zip`
+          url: `${base}/${name}-${version}.dmg`
         })
       } else {
         assets.push({
           platform,
           arch,
-          file: `${name}-${version}-${arch}.dmg`
-        })
-        assets.push({
-          platform,
-          arch,
-          file: `${name}-${version}-${platform}-${arch}.zip`
+          url: `${base}/${name}-${version}-${arch}.dmg`
         })
       }
       break
@@ -98,23 +88,15 @@ function getAssets({ name, productName, version }, platform, arch) {
       assets.push({
         platform,
         arch,
-        file: `${name}-${version}-${arch}.bz2`
+        url: `${base}/${name}-${version}-${arch}.bz2`
       })
-
-      if (arch === 'x64') {
-        assets.push({
-          platform,
-          arch,
-          file: `${productName}-${version}-x86_64.AppImage`
-        })
-      }
       break
 
     case WIN32:
       assets.push({
         platform,
         arch,
-        file: `setup-${name}-${version}-${arch}.exe`
+        url: `${base}/setup-${name}-${version}-${arch}.exe`
       })
       break
   }

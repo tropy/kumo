@@ -28,6 +28,14 @@ export class Release {
     this.build = Build.parse(build, this)
   }
 
+  get base() {
+    return `https://github.com/tropy/tropy/releases/download/${this.version}`
+  }
+
+  get url() {
+    return `https://github.com/tropy/tropy/releases/tag/${this.version}`
+  }
+
   get channel() {
     return this.version.prerelease[0] || 'latest'
   }
@@ -65,6 +73,7 @@ export class Release {
   toJSON() {
     return {
       version: this.version?.toString(),
+      url: this.url,
       assets: this.getAssets()
     }
   }

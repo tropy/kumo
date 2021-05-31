@@ -19,6 +19,14 @@ describe('Releases', () => {
       let res = await handler(event)
 
       expect(res).to.be.an('array').and.have.lengthOf(1)
+
+      let [release] = res
+      expect(release.version).to.match(/^\d+\.\d+\.\d+(-\w+)?$/)
+      expect(release.url).to.be.a('string')
+      expect(release.assets).to.be.an('array')
+      expect(release.assets[0])
+        .to.have.keys(['arch', 'platform', 'url'])
+
     })
 
     it('supports channel path param', async () => {

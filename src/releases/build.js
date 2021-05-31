@@ -88,7 +88,7 @@ function getAssets({ base, name, version }, platform, arch) {
       assets.push({
         platform,
         arch,
-        url: `${base}/${name}-${version}-${arch}.bz2`
+        url: `${base}/${name}-${version}-${arch}.tar.bz2`
       })
       break
 

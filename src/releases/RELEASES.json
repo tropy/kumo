@@ -15,6 +15,20 @@
     }
   },
   {
+    "version": "1.9.0-beta.1",
+    "build": {
+      "darwin": {
+        "x64": true
+      },
+      "linux": {
+        "x64": true
+      },
+      "win32": {
+        "x64": "94C50A92415B04A5E446998F058926D29CC384A3 tropy-beta-1.9.0-beta1-full.nupkg 98033930"
+      }
+    }
+  },
+  {
     "version": "1.8.2",
     "build": {
       "darwin": {

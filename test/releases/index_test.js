@@ -13,4 +13,13 @@ describe('Releases', () => {
     let res = await handler(E('latest-release'))
     expect(res).to.be.an('array').and.have.lengthOf(1)
   })
+
+  it('supports channel filters', async () => {
+    let res = await handler({
+      ...E('latest-release'),
+      pathParameters: { channel: 'beta' }
+    })
+
+    expect(res[0].version).to.match(/beta/)
+  })
 })

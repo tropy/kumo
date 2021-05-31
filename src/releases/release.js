@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { parse, satisfies } from 'semver'
 import { Build } from './build'
-import RELEASES from './releases.json'
+import RELEASES from './RELEASES.json'
 
 const cache = {}
 
@@ -18,7 +18,7 @@ export class Release {
       cache.releases = await Release.load()
 
     return query ?
-      cache.releases.filter(r => !r.meets(query)) :
+      cache.releases.filter(r => r.meets(query)) :
       [...cache.releases]
   }
 

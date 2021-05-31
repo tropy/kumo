@@ -22,3 +22,8 @@ Resources:
           Properties:
             Path: /releases
             Method: get
+        ReleaseChannel:
+          Type: HttpApi
+          Properties:
+            Path: /releases/{channel}
+            Method: get

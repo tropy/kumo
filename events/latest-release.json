@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "routeKey": "GET /releases",
-  "rawPath": "/releases",
+  "routeKey": "GET /releases/<channel>",
+  "rawPath": "/releases/latest",
   "rawQueryString": "limit=1",
   "cookies": [],
   "headers": {
@@ -19,17 +19,19 @@
     "apiId": "1234567890",
     "http": {
       "method": "GET",
-      "path": "/releases",
+      "path": "/releases/latest",
       "protocol": "HTTP/1.1",
       "sourceIp": "127.0.0.1",
       "userAgent": "Custom User Agent String"
     },
-    "requestId": "1082028c-0427-4925-9c2c-298fbb7b54c5",
-    "routeKey": "GET /releases",
+    "requestId": "f795a5a1-d754-4b94-bb33-0d55ab9505f1",
+    "routeKey": "GET /releases/<channel>",
     "stage": null
   },
   "body": "",
-  "pathParameters": {},
+  "pathParameters": {
+    "channel": "latest"
+  },
   "stageVariables": null,
   "isBase64Encoded": false
 }

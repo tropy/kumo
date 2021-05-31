@@ -17,11 +17,6 @@ Resources:
       Handler: lib/releases/index.handler
       Description: Returns Tropy release data
       Events:
-        Releases:
-          Type: HttpApi
-          Properties:
-            Path: /releases
-            Method: get
         ReleaseChannel:
           Type: HttpApi
           Properties:

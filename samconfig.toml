@@ -7,7 +7,7 @@ region = "us-east-1"
 
 [default.deploy]
 [default.deploy.parameters]
-s3_bucket = "kumo"
+s3_bucket = "tropy-kumo"
 s3_prefix = "sam"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"

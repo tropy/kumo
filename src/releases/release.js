@@ -10,7 +10,7 @@ export class Release {
   static async load() {
     return RELEASES
       .map(spec => (new Release(spec)).validate())
-      .sort((a, b) => a.version.compare(b.version))
+      .sort((a, b) => -1 * a.version.compare(b.version))
   }
 
   static async all(query) {

@@ -2,38 +2,44 @@ import assert from 'assert'
 import { parse, satisfies } from 'semver'
 import { Build } from './build'
 import RELEASES from './RELEASES.json'
+import { capitalize } from '../util'
 
 const cache = {}
 
 export class Release {
 
   static async load() {
-    return RELEASES
+    return RELEASES.releases
       .map(spec => (new Release(spec)).validate())
       .sort((a, b) => -1 * a.version.compare(b.version))
   }
 
-  static async all(query) {
+  static async select({ order, offset, limit, ...query }) {
     if (!cache.releases)
       cache.releases = await Release.load()
 
-    return query ?
-      cache.releases.filter(r => r.meets(query)) :
-      [...cache.releases]
+    let releases = cache.releases.filter(r => r.meets(query))
+
+    if (order === 'asc')
+      releases = releases.reverse()
+    if (offset || limit != null)
+      releases = releases.slice(offset, limit)
+
+    return releases
   }
 
-  constructor({ version, product = 'Tropy', build = {} }) {
+  constructor({ version, product = RELEASES.name, build = {} }) {
     this.product = product
     this.version = parse(version)
     this.build = Build.parse(build, this)
   }
 
   get base() {
-    return `https://github.com/tropy/tropy/releases/download/${this.version}`
+    return `${RELEASES.repository}/releases/download/${this.version}`
   }
 
   get url() {
-    return `https://github.com/tropy/tropy/releases/tag/${this.version}`
+    return `${RELEASES.repository}/releases/tag/${this.version}`
   }
 
   get channel() {
@@ -89,6 +95,4 @@ export class Release {
   }
 }
 
-const capitalize = (s) =>
-  `${s[0].toUpperCase()}${s.slice(1)}`
 

@@ -1,15 +1,31 @@
 import { Release } from './release'
 
 export async function handler(event) {
-  let { channel } = event?.pathParameters || {}
-  let { offset = 0, order, limit } = event?.queryStringParameters || {}
+  let {
+    arch,
+    channel,
+    limit,
+    offset = 0,
+    order,
+    platform,
+    version
+  } = {
+    ...event?.queryStringParameters,
+    ...event?.pathParameters
+  }
 
-  let releases = await Release.all({ channel })
+  if (channel === 'stable')
+    channel = 'latest'
 
-  if (order === 'asc')
-    releases = releases.reverse()
+  let releases = await Release.select({
+    arch,
+    channel,
+    platform,
+    range: version,
+    order,
+    limit,
+    offset
+  })
 
-  return releases
-    .slice(offset, limit)
-    .map(r => r.toJSON())
+  return releases.map(r => r.toJSON())
 }

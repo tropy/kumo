@@ -28,6 +28,16 @@ export class Release {
     return releases
   }
 
+  static async latest({ channel = 'latest', ...opts } = {}) {
+    return (await Release.select({
+      channel,
+      ...opts,
+      order: 'desc',
+      offset: 0,
+      limit: 1
+    }))[0]
+  }
+
   constructor({ version, product = RELEASES.name, build = {} }) {
     this.product = product
     this.version = parse(version)
@@ -58,10 +68,22 @@ export class Release {
       this.product
   }
 
-  getAssets() {
-    return Object.values(this.build).flatMap(build => build.getAssets())
+  getDefaultAssets() {
+    return Object.values(this.build).flatMap(build => build.getDefaultAssets())
   }
 
+  getUpdateInfo(platform, arch) {
+    switch (platform) {
+      case 'darwin':
+        return {
+          name: this.version.toString(),
+          notes: this.url,
+          url: this.build[platform].getUpdateAsset(arch)
+        }
+      case 'win32':
+        return this.build[platform].getUpdateAsset(arch)
+    }
+  }
 
   meets({ range, channel, platform, arch }) {
     if (range && !satisfies(this.version, range))
@@ -80,7 +102,7 @@ export class Release {
     return {
       version: this.version?.toString(),
       url: this.url,
-      assets: this.getAssets()
+      assets: this.getDefaultAssets()
     }
   }
 
@@ -94,5 +116,4 @@ export class Release {
     return this
   }
 }
-
 

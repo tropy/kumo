@@ -1,7 +1,7 @@
 import { handler } from '../../src/releases'
 import { satisfies } from 'semver'
 
-describe('Releases', () => {
+describe('ReleasesFunction', () => {
   it('returns a list of releases', async () => {
     let res = await handler()
 

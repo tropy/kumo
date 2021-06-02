@@ -15,10 +15,26 @@ Resources:
       BuildMethod: makefile
     Properties:
       Handler: lib/releases/index.handler
-      Description: Returns Tropy release data
+      Description: Tropy release data
       Events:
         ReleaseChannel:
           Type: HttpApi
           Properties:
             Path: /releases/{channel}
             Method: get
+  UpdateFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: lib/update/index.handler
+      Description: Tropy update service
+      Events:
+        AutoUpdate:
+          Type: HttpApi
+          Properties:
+            Path: /update/{channel}/{platform}/{arch}/{version}
+        AutoUpdate-x64:
+          Type: HttpApi
+          Properties:
+            Path: /update/{channel}/{platform}/{version}

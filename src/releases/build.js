@@ -14,10 +14,23 @@ export class Build {
     this.arch = arch
   }
 
-  getAssets() {
+  getDefaultAssets() {
     return Object.entries(this.arch).flatMap(([arch, value]) =>
-      value && getAssets(this.release, this.platform, arch)
+      value && getDefaultAssets(this.release, this.platform, arch)
     )
+  }
+
+  getUpdateAsset(arch) {
+    let { base, name, version } = this.release
+
+    switch (this.platform) {
+      case 'darwin':
+        return (arch === 'x64') ?
+          `${base}/${name}-${version}.zip` :
+          `${base}/${name}-${version}-${arch}.zip`
+      case 'win32':
+        return this.arch[arch]
+    }
   }
 
   toJSON() {
@@ -64,7 +77,7 @@ const SUPPORTED = {
   }
 }
 
-function getAssets({ base, name, version }, platform, arch) {
+function getDefaultAssets({ base, name, version }, platform, arch) {
   let assets = []
 
   switch (platform) {

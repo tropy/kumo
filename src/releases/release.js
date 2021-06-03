@@ -14,7 +14,7 @@ export class Release {
       .sort((a, b) => -1 * a.version.compare(b.version))
   }
 
-  static async select({ order, offset, limit, ...query }) {
+  static async select({ order, offset, limit, ...query } = {}) {
     if (!cache.releases)
       cache.releases = await Release.load()
 
@@ -40,7 +40,7 @@ export class Release {
 
   constructor({ version, product = RELEASES.name, build = {} }) {
     this.product = product
-    this.version = parse(version)
+    this.version = Object.freeze(parse(version))
     this.build = Build.parse(build, this)
   }
 
@@ -92,7 +92,7 @@ export class Release {
       return false
     if (platform && !this.build[platform])
       return false
-    if (arch && !this.build[platform].arch[arch])
+    if (arch && !this.build[platform]?.arch[arch])
       return false
 
     return true

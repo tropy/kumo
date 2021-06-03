@@ -1,17 +1,24 @@
+import { parse } from 'semver'
 import { Release } from '../releases/release'
-import { noContent } from '../http'
+import { badRequest, noContent } from '../http'
 
 export async function handleUpdateRequest({ arch, channel, version }) {
 
   // TODO handle old macOS
 
-  let [release] = await Release.select({
+  version = parse(version)
+
+  if (!version)
+    return badRequest('invalid version')
+
+  let release = await Release.latest({
     arch,
     channel,
-    platform: 'darwin',
-    range: `>${version}`,
-    limit: 1
+    platform: 'darwin'
   })
 
-  return release?.getUpdateInfo('darwin', arch) || noContent()
+  if (!release || version.compare(release.version) >= 0)
+    return noContent()
+
+  return release.getUpdateInfo('darwin', arch) || noContent()
 }

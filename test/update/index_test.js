@@ -1,3 +1,4 @@
+import { parse } from 'semver'
 import { handler } from '../../src/update'
 import { Release } from '../../src/releases/release'
 
@@ -7,8 +8,8 @@ describe('UpdateFunction', () => {
 
   describe('darwin', async () => {
     beforeEach(async () => {
-      LATEST = (await Release.latest({ platform: 'darwin' })).version
-      BETA = (await Release.latest({ platform: 'darwin', channel: 'beta' })).version
+      LATEST = parse((await Release.latest({ platform: 'darwin' })).version.raw)
+      BETA = parse((await Release.latest({ platform: 'darwin', channel: 'beta' })).version.raw)
     })
 
     it('responds with latest version if there is an update', async () => {
@@ -30,10 +31,10 @@ describe('UpdateFunction', () => {
         `https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-arm64.zip`)
     })
 
-    //it('responds with latest version if there is an update in the beta channel', async () => {
-    //  expect(await handler(R('beta/darwin/1.8.2-beta.3')))
-    //    .to.have.property('name', BETA)
-    //})
+    it('responds with latest version if there is an update in the beta channel', async () => {
+      expect(await handler(R('beta/darwin/1.8.2-beta.3')))
+        .to.have.property('name', BETA.version)
+    })
 
     it('responds with 204 if there is no update', async () => {
       for (let res of [
@@ -44,13 +45,26 @@ describe('UpdateFunction', () => {
         handler(R(`stable/darwin/x64/${LATEST}`)),
         handler(R(`beta/darwin/x64/${BETA}`)),
         handler(R('none/darwin/x64/1.0.0')),
-        handler(R('latest/darwin/x64/none')),
         handler(R(`latest/darwin/ia32/${LATEST}`)),
         handler(R(`latest/darwin/arm64/${LATEST}`)),
         handler(R(`latest/darwin/x64/${LATEST.inc('patch')}`)),
-        handler(R(`beta/darwin/x64/${BETA.inc('minor')}`))
+        handler(R(`latest/darwin/x64/${LATEST.inc('minor')}`)),
+        handler(R(`latest/darwin/x64/${LATEST.inc('major')}`)),
+        handler(R(`beta/darwin/x64/${BETA.inc('pre')}`))
       ]) {
         expect(await res).to.have.property('statusCode', 204)
+      }
+    })
+
+    it('responds with 400 bad request for invalid versions', async () => {
+      for (let res of [
+        handler(R('latest/darwin/x64')),
+        handler(R('beta/darwin/x64')),
+        handler(R('latest/darwin/x64/no-version')),
+        handler(R('latest/darwin/arm64/no-version')),
+        handler(R('beta/darwin/arm64/no-version'))
+      ]) {
+        expect(await res).to.have.property('statusCode', 400)
       }
     })
   })

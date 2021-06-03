@@ -104,6 +104,39 @@ describe('UpdateFunction', () => {
     })
 
     describe('versioned files', () => {
+      it('responds with 302 redirect for matched versions', async () => {
+        for (let res of [
+          await handler(R('beta/win32/tropy-beta-1.9.0-beta1-full.nupkg')),
+          await handler(R('beta/win32/x64/tropy-beta-1.9.0-beta1-full.nupkg')),
+          await handler(R('latest/win32/tropy-1.9.0-full.nupkg')),
+          await handler(R('latest/win32/x64/tropy-1.9.0-full.nupkg')),
+          await handler(R('stable/win32/tropy-1.9.0-full.nupkg')),
+          await handler(R('stable/win32/x64/tropy-1.9.0-full.nupkg')),
+          await handler(R('stable/win32/tropy-1.8.2-full.nupkg'))
+        ]) {
+          expect(res).to.have.property('statusCode', 302)
+          expect(res.headers).to.have.property('location')
+        }
+
+        expect(await handler(R('stable/win32/tropy-1.9.0-full.nupkg')))
+          .to.have.nested.property(
+            'headers.location',
+            'https://github.com/tropy/tropy/releases/download/1.9.0/tropy-1.9.0-full.nupkg')
+        expect(await handler(R('beta/win32/tropy-beta-1.9.0-beta1-full.nupkg')))
+          .to.have.nested.property(
+            'headers.location',
+            'https://github.com/tropy/tropy/releases/download/1.9.0-beta.1/tropy-beta-1.9.0-beta1-full.nupkg')
+      })
+
+      it('responds with 404 not found for unmatched versions', async () => {
+          for (let res of [
+            handler(R('beta/win32/x64/1.9.0')),
+            handler(R('beta/win32/x64/tropy-1.9.0-full.nupkg')),
+            handler(R('latest/win32/x64/1.0.0-alpha.23'))
+          ]) {
+            expect(await res).to.have.property('statusCode', 404)
+          }
+      })
     })
 
     it('returns 400 for files with no version', async () => {
@@ -112,14 +145,6 @@ describe('UpdateFunction', () => {
           handler(R('latest/win32/x64/foobar'))
         ]) {
           expect(await res).to.have.property('statusCode', 400)
-        }
-    })
-
-    it('returns 404 for missing versions', async () => {
-        for (let res of [
-          handler(R('latest/win32/x64/1.0.0-alpha.23'))
-        ]) {
-          expect(await res).to.have.property('statusCode', 404)
         }
     })
   })

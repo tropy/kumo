@@ -17,13 +17,14 @@ export async function handleUpdateRequest({ arch, channel, file }) {
       return noContent()
   }
 
-  let version = nuPkgVersion(file)
+  let version = nuPkgVersion(file, channel, arch)
 
   if (version == null)
     return badRequest('invalid version')
 
   let release = releases.find(r => eq(r.version, version))
 
+  // TODO redirect full/delta accordingly if we want to support delta updates!
   if (release != null)
     return redirect(release.getUpdateInfo('win32', arch))
   else

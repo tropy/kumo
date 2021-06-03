@@ -21,7 +21,7 @@ export class Build {
   }
 
   getUpdateAsset(arch) {
-    let { base, name, version } = this.release
+    let { channel, base, name, version } = this.release
 
     switch (this.platform) {
       case 'darwin':
@@ -29,7 +29,12 @@ export class Build {
           `${base}/${name}-${version}.zip` :
           `${base}/${name}-${version}-${arch}.zip`
       case 'win32':
-        return this.arch[arch]
+        if (channel !== 'latest')
+          version = version.raw.replace(/\.(\d+)$/, '$1')
+
+        return (arch === 'x64') ?
+          `${base}/${name}-${version}-full.nupkg` :
+          `${base}/${name}-${version}-${arch}-full.nupkg`
     }
   }
 

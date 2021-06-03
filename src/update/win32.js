@@ -1,6 +1,6 @@
-import { parse } from 'semver'
+import { eq, parse } from 'semver'
 import { Release } from '../releases/release'
-import { noContent, notFound, redirect, send } from '../http'
+import { badRequest, noContent, notFound, redirect, send } from '../http'
 
 export async function handleUpdateRequest({ arch, channel, file }) {
   let releases = await Release.select({
@@ -18,7 +18,11 @@ export async function handleUpdateRequest({ arch, channel, file }) {
   }
 
   let version = nuPkgVersion(file)
-  let release = releases.find(r => r.version.eq(version))
+
+  if (version == null)
+    return badRequest('invalid version')
+
+  let release = releases.find(r => eq(r.version, version))
 
   if (release != null)
     return redirect(release.getUpdateInfo('win32', arch))

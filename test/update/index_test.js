@@ -70,6 +70,58 @@ describe('UpdateFunction', () => {
   })
 
   describe('win32', () => {
+    describe('RELEASES', () => {
+      it('returns x64 RELEASES file if no arch given', async () => {
+        let res = await handler(R('latest/win32/RELEASES'))
+        let x64 = await handler(R('latest/win32/x64/RELEASES'))
+
+        expect(res.body).to.equal(x64.body)
+      })
+
+      for (let channel of ['latest', 'stable', 'beta']) {
+        for (let arch of ['x64']) {
+          it(`returns ${channel}/${arch}/RELEASES file`, async () => {
+            let res = await handler(R(`${channel}/win32/${arch}/RELEASES`))
+
+            expect(res.statusCode).to.eql(200)
+            expect(res.headers)
+              .to.have.property('content-type', 'application/octet-stream; charset=utf-8')
+            expect(res.headers)
+              .to.have.property('content-length', res.body.length)
+            expect(res.body).to.be.a('string')
+          })
+        }
+      }
+
+      it('returns 204 for unknown archs', async () => {
+        for (let res of [
+          handler(R('latest/win32/arm64/RELEASES')),
+          handler(R('latest/win32/x16/RELEASES'))
+        ]) {
+          expect(await res).to.have.property('statusCode', 204)
+        }
+      })
+    })
+
+    describe('versioned files', () => {
+    })
+
+    it('returns 400 for files with no version', async () => {
+        for (let res of [
+          handler(R('latest/win32/x64')),
+          handler(R('latest/win32/x64/foobar'))
+        ]) {
+          expect(await res).to.have.property('statusCode', 400)
+        }
+    })
+
+    it('returns 404 for missing versions', async () => {
+        for (let res of [
+          handler(R('latest/win32/x64/1.0.0-alpha.23'))
+        ]) {
+          expect(await res).to.have.property('statusCode', 404)
+        }
+    })
   })
 
   describe('other platforms', () => {
@@ -101,4 +153,3 @@ let R = (url) => {
     }
   }
 }
-

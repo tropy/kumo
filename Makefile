@@ -11,3 +11,7 @@ lib: src npm
 build-ReleasesFunction: lib
 	mkdir -p "${ARTIFACTS_DIR}/lib/releases"
 	cp lib/releases/index.js "${ARTIFACTS_DIR}/lib/releases/index.js"
+
+build-UpdateFunction: lib
+	mkdir -p "${ARTIFACTS_DIR}/lib/update"
+	cp lib/update/index.js "${ARTIFACTS_DIR}/lib/update/index.js"

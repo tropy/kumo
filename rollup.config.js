@@ -3,9 +3,9 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 
-export default {
+const lambda = (name) => ({
   input: {
-    releases: 'src/releases/index.js'
+    [name]: `src/${name}/index.js`
   },
   output: {
     format: 'cjs',
@@ -26,4 +26,9 @@ export default {
     json(),
     commonjs()
   ]
-}
+})
+
+export default [
+  lambda('releases'),
+  lambda('update')
+]

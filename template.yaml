@@ -35,7 +35,7 @@ Resources:
           Properties:
             Path: /update/{channel}/{platform}/{arch}/{version}
             Method: get
-        AutoUpdate-x64:
+        AutoUpdateX64:
           Type: HttpApi
           Properties:
             Path: /update/{channel}/{platform}/{version}

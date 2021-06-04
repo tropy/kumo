@@ -44,6 +44,76 @@
           "x64": "228FFA5EB8064A32269280D76B06155359AC3582 tropy-1.8.2-full.nupkg 84875127"
         }
       }
+    },
+    {
+      "version": "1.8.2-beta.1",
+      "build": {
+        "darwin": {
+          "x64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "44EA05CBC04D714F08E2C45DA5F9EE7311DE30B7 tropy-beta-1.8.2-beta1-full.nupkg 84869628"
+        }
+      }
+    },
+    {
+      "version": "1.8.1",
+      "build": {
+        "darwin": {
+          "x64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "1B9394E9160752B73F2B1CDBF1576EF702A5D964 tropy-1.8.1-full.nupkg 86080457"
+        }
+      }
+    },
+    {
+      "version": "1.8.0",
+      "build": {
+        "darwin": {
+          "x64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "4B65C0EFE80F10137957D1B84F24389795BEAC62 tropy-1.8.0-full.nupkg 100169428"
+        }
+      }
+    },
+    {
+      "version": "1.7.0",
+      "build": {
+        "darwin": {
+          "x64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "35FE2271117F0B7E59263E5BB1E7AF18ACDBAFD3 tropy-1.7.0-full.nupkg 91327177"
+        }
+      }
+    },
+    {
+      "version": "1.6.0",
+      "build": {
+        "darwin": {
+          "x64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "AF2ACB1F907814BB0F6DC7B05A7F105B80289723 tropy-1.6.0-full.nupkg 81414488"
+        }
+      }
     }
   ]
 }

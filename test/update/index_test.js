@@ -24,11 +24,11 @@ describe('UpdateFunction', () => {
         expect(notes)
           .to.eql(`https://github.com/tropy/tropy/releases/tag/${LATEST}`)
         expect(url)
-          .to.eql(`https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}.zip`)
+          .to.eql(`https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-darwin.zip`)
       }
 
       expect(await handler(R('latest/darwin/arm64/1.8.9'))).to.have.property('url',
-        `https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-arm64.zip`)
+        `https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-darwin-arm64.zip`)
     })
 
     it('responds with latest version if there is an update in the beta channel', async () => {
@@ -167,14 +167,14 @@ describe('UpdateFunction', () => {
 })
 
 let R = (url) => {
-  let parts = url.split('/')
+  let [channel, platform, ...av] = url.split('/')
   return {
     rawPath: url,
     pathParameters: {
-      channel: parts[0],
-      platform: parts[1],
-      arch: parts[2],
-      version: parts[3]
+      channel,
+      platform,
+      version: av.pop(),
+      arch: av.pop()
     }
   }
 }

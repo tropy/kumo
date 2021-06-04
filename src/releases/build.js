@@ -26,8 +26,8 @@ export class Build {
     switch (this.platform) {
       case 'darwin':
         return (arch === 'x64') ?
-          `${base}/${name}-${version}.zip` :
-          `${base}/${name}-${version}-${arch}.zip`
+          `${base}/${name}-${version}-darwin.zip` :
+          `${base}/${name}-${version}-darwin-${arch}.zip`
       case 'win32':
         if (channel !== 'latest')
           version = version.raw.replace(/\.(\d+)$/, '$1')

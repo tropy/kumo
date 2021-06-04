@@ -9,15 +9,10 @@ export async function handler(event) {
   let {
     channel,
     platform,
-    arch,
+    arch = 'x64',
     version
   } = {
     ...event?.pathParameters
-  }
-
-  if (version == null) {
-    version = arch
-    arch = 'x64'
   }
 
   if (channel === 'stable')

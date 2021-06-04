@@ -2,9 +2,9 @@ import { parse } from 'semver'
 import { Release } from '../releases/release'
 import { badRequest, noContent } from '../http'
 
-export async function handleUpdateRequest({ arch, channel, version }) {
-
-  // TODO handle old macOS
+export async function handleUpdateRequest({ arch, channel, version }, event) {
+  if (ltHighSierra(event?.headers?.['User-Agent']))
+    return noContent()
 
   version = parse(version)
 
@@ -22,3 +22,6 @@ export async function handleUpdateRequest({ arch, channel, version }) {
 
   return release.getUpdateInfo('darwin', arch) || noContent()
 }
+
+const ltHighSierra = (UA) =>
+  (UA?.match(/Tropy.*Darwin\/(\d+)\.\d/))?.[1] < 17

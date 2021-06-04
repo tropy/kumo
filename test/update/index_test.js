@@ -39,6 +39,13 @@ describe('UpdateFunction', () => {
         .to.have.property('name', BETA.version)
     })
 
+    it('responds with 204 for macOS below High Sierra', async () => {
+      let event = E('update-darwin-x64')
+      event.headers['User-Agent'] = 'Tropy/Darwin/16.6.0'
+
+      expect(await handler(event)).to.have.property('statusCode', 204)
+    })
+
     it('responds with 204 if there is no update', async () => {
       for (let res of [
         handler(R(`latest/darwin/${LATEST}`)),

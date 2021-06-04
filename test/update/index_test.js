@@ -29,6 +29,9 @@ describe('UpdateFunction', () => {
 
       expect(await handler(R('latest/darwin/arm64/1.8.9'))).to.have.property('url',
         `https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-darwin-arm64.zip`)
+
+      expect(await handler(E('update-darwin-x64'))).to.have.property('url')
+      expect(await handler(E('update-darwin-arm64'))).to.have.property('url')
     })
 
     it('responds with latest version if there is an update in the beta channel', async () => {
@@ -71,6 +74,11 @@ describe('UpdateFunction', () => {
 
   describe('win32', () => {
     describe('RELEASES', () => {
+      it ('responds with 200 for valid arch', async () => {
+        expect(await handler(E('update-win32-x64-releases')))
+          .to.have.property('statusCode', 200)
+      })
+
       it('returns x64 RELEASES file if no arch given', async () => {
         let res = await handler(R('latest/win32/RELEASES'))
         let x64 = await handler(R('latest/win32/x64/RELEASES'))
@@ -126,6 +134,9 @@ describe('UpdateFunction', () => {
           .to.have.nested.property(
             'headers.location',
             'https://github.com/tropy/tropy/releases/download/1.9.0-beta.1/tropy-beta-1.9.0-beta1-full.nupkg')
+
+        expect(await handler(E('update-win32-x64-nupkg')))
+          .to.have.property('statusCode', 302)
       })
 
       it('responds with 404 not found for unmatched versions', async () => {

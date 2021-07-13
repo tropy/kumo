@@ -2,7 +2,6 @@ import assert from 'assert'
 import { parse, satisfies } from 'semver'
 import { Build } from './build'
 import RELEASES from './RELEASES.json'
-import { capitalize } from '../util'
 
 const cache = {}
 
@@ -57,15 +56,7 @@ export class Release {
   }
 
   get name() {
-    return (this.version.prerelease.length > 0) ?
-      `${this.product.toLowerCase()}-${this.channel}` :
-      this.product.toLowerCase()
-  }
-
-  get productName() {
-    return (this.version.prerelease.length > 0) ?
-      `${this.product} ${capitalize(this.channel)}` :
-      this.product
+    return this.product.toLowerCase()
   }
 
   getDefaultAssets() {

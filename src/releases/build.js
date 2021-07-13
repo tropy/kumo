@@ -29,8 +29,10 @@ export class Build {
           `${base}/${name}-${version}-darwin.zip` :
           `${base}/${name}-${version}-darwin-${arch}.zip`
       case 'win32':
-        if (channel !== 'latest')
+        if (channel !== 'latest') {
+          name = `${name}-${channel}`
           version = version.raw.replace(/\.(\d+)$/, '$1')
+        }
 
         return (arch === 'x64') ?
           `${base}/${name}-${version}-full.nupkg` :

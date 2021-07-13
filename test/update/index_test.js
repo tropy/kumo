@@ -35,8 +35,11 @@ describe('UpdateFunction', () => {
     })
 
     it('responds with latest version if there is an update in the beta channel', async () => {
-      expect(await handler(R('beta/darwin/1.8.2-beta.3')))
-        .to.have.property('name', BETA.version)
+      let res = await handler(R('beta/darwin/1.8.2-beta.3'))
+
+      expect(res).to.have.property('name', BETA.version)
+      expect(res).to.have.property('url',
+        `https://github.com/tropy/tropy/releases/download/${BETA}/tropy-${BETA}-darwin.zip`)
     })
 
     it('responds with 204 for macOS below High Sierra', async () => {

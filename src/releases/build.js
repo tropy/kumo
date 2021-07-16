@@ -80,7 +80,8 @@ const SUPPORTED = {
   },
   [WIN32]: {
     x64: true,
-    ia32: true
+    ia32: true,
+    arm64: true
   }
 }
 

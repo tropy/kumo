@@ -14,8 +14,8 @@
         },
         "win32": {
           "x64": "13E66692BE83DC4F397100A593538DD884AC3E01 tropy-beta-1.10.0-beta1-full.nupkg 101770657",
-          "arm64": "B47E03272DAA319A6822C6C03A5D8187AF36A784 tropy-beta-1.10.0-beta1-arm64-full.nupkg 103260580",
-          "ia32": "1FC80DA6E7809FFB47D8BF211A7B0A1CB81C7F8E tropy-beta-1.10.0-beta1-ia32-full.nupkg 96841794"
+          "arm64": "B47E03272DAA319A6822C6C03A5D8187AF36A784 tropy-beta-1.10.0-beta1-full.nupkg 103260580",
+          "ia32": "1FC80DA6E7809FFB47D8BF211A7B0A1CB81C7F8E tropy-beta-1.10.0-beta1-full.nupkg 96841794"
         }
       }
     },

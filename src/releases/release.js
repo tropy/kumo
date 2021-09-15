@@ -44,11 +44,16 @@ export class Release {
   }
 
   get base() {
-    return `${RELEASES.repository}/releases/download/${this.version}`
+    return `${RELEASES.repository}/releases/download/${this.tag}`
   }
 
   get url() {
-    return `${RELEASES.repository}/releases/tag/${this.version}`
+    return `${RELEASES.repository}/releases/tag/${this.tag}`
+  }
+
+  get tag() {
+    return this.version.compare('1.10.0-beta.2') > 0 ?
+      `v${this.version}` : this.version
   }
 
   get channel() {

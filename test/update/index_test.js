@@ -39,7 +39,7 @@ describe('UpdateFunction', () => {
 
       expect(res).to.have.property('name', BETA.version)
       expect(res).to.have.property('url',
-        `https://github.com/tropy/tropy/releases/download/${BETA}/tropy-${BETA}-darwin.zip`)
+        `https://github.com/tropy/tropy/releases/download/v${BETA}/tropy-${BETA}-darwin.zip`)
     })
 
     it('responds with 204 for macOS below High Sierra', async () => {

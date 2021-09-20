@@ -22,13 +22,13 @@ describe('UpdateFunction', () => {
         let { name, url, notes } = await res
         expect(name).to.eql(LATEST.version)
         expect(notes)
-          .to.eql(`https://github.com/tropy/tropy/releases/tag/${LATEST}`)
+          .to.eql(`https://github.com/tropy/tropy/releases/tag/v${LATEST}`)
         expect(url)
-          .to.eql(`https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-darwin.zip`)
+          .to.eql(`https://github.com/tropy/tropy/releases/download/v${LATEST}/tropy-${LATEST}-darwin.zip`)
       }
 
       expect(await handler(R('latest/darwin/arm64/1.8.9'))).to.have.property('url',
-        `https://github.com/tropy/tropy/releases/download/${LATEST}/tropy-${LATEST}-darwin-arm64.zip`)
+        `https://github.com/tropy/tropy/releases/download/v${LATEST}/tropy-${LATEST}-darwin-arm64.zip`)
 
       expect(await handler(E('update-darwin-x64'))).to.have.property('url')
       expect(await handler(E('update-darwin-arm64'))).to.have.property('url')
@@ -113,7 +113,6 @@ describe('UpdateFunction', () => {
 
       it('returns 204 for unknown archs', async () => {
         for (let res of [
-          handler(R('latest/win32/arm64/RELEASES')),
           handler(R('latest/win32/x16/RELEASES'))
         ]) {
           expect(await res).to.have.property('statusCode', 204)
@@ -128,6 +127,8 @@ describe('UpdateFunction', () => {
           await handler(R('beta/win32/x64/tropy-beta-1.9.0-beta1-full.nupkg')),
           await handler(R('latest/win32/tropy-1.9.0-full.nupkg')),
           await handler(R('latest/win32/x64/tropy-1.9.0-full.nupkg')),
+          await handler(R('latest/win32/arm64/tropy-1.10.0-full.nupkg')),
+          await handler(R('latest/win32/ia32/tropy-1.10.0-full.nupkg')),
           await handler(R('stable/win32/tropy-1.9.0-full.nupkg')),
           await handler(R('stable/win32/x64/tropy-1.9.0-full.nupkg')),
           await handler(R('stable/win32/tropy-1.8.2-full.nupkg'))

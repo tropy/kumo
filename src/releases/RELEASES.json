@@ -20,6 +20,23 @@
       }
     },
     {
+      "version": "1.13.0-beta.4",
+      "build": {
+        "darwin": {
+          "x64": true,
+          "arm64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "D6EFBCEC891F851A50D6D4C3685A8AA31C842BFD tropy-beta-1.13.0-beta4-full.nupkg 110929778",
+          "arm64": "C34AA7AC8F3E52DCC88728CC5CCBE26AEE21C925 tropy-beta-1.13.0-beta4-full.nupkg 106795616",
+          "ia32": "7B6FA76A43C496DD2642EA9EEB38C6A1F3FFCABD tropy-beta-1.13.0-beta4-full.nupkg 105097223"
+        }
+      }
+    },
+    {
       "version": "1.13.0-beta.3",
       "build": {
         "darwin": {

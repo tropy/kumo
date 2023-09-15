@@ -35,5 +35,5 @@ export const json = (body) => ({
     'content-type': 'application/json',
     'access-control-allow-origin': '*'
   },
-  body
+  body: JSON.stringify(body)
 })

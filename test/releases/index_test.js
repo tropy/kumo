@@ -6,10 +6,11 @@ describe('ReleasesFunction', () => {
     let res = await handler()
 
     expect(res).to.have.property('statusCode', 200)
-    expect(res).have.property('body').be.an('array')
+    expect(res).have.property('body').be.a('string')
 
-    expect(res.body.length).to.be.above(1)
-    expect(res.body[0]).to.have.a.property('version')
+    let body = JSON.parse(res.body)
+    expect(body.length).to.be.above(1)
+    expect(body[0]).to.have.a.property('version')
   })
 
   describe('latest-release event', () => {
@@ -22,9 +23,12 @@ describe('ReleasesFunction', () => {
 
       expect(res)
         .to.have.property('body')
-        .be.an('array').and.have.lengthOf(1)
+        .be.a('string')
 
-      let [release] = res.body
+      let body = JSON.parse(res.body)
+      expect(body).to.be.an('array').and.have.lengthOf(1)
+
+      let [release] = body
       expect(release.version).to.match(/^\d+\.\d+\.\d+(-\w+)?$/)
       expect(release.url).to.be.a('string')
       expect(release.assets).to.be.an('array')
@@ -36,8 +40,9 @@ describe('ReleasesFunction', () => {
     it('supports channel path param', async () => {
       event.pathParameters.channel = 'beta'
       let res = await handler(event)
+      let body = JSON.parse(res.body)
 
-      expect(res.body[0].version).to.match(/beta/)
+      expect(body[0].version).to.match(/beta/)
     })
 
     it('supports order query param', async () => {
@@ -45,8 +50,11 @@ describe('ReleasesFunction', () => {
       event.queryStringParameters.order = 'asc'
       let res2 = await handler(event)
 
+      let body1 = JSON.parse(res1.body)
+      let body2 = JSON.parse(res2.body)
+
       expect(
-        satisfies(res1.body[0].version, `> ${res2.body[0].version}`)
+        satisfies(body1[0].version, `> ${body2[0].version}`)
       ).to.be.true
     })
   })

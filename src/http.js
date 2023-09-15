@@ -28,3 +28,12 @@ export const notFound = (body = 'not found') => ({
   statusCode: 404,
   body
 })
+
+export const json = (body) => ({
+  statusCode: 200,
+  headers: {
+    'content-type': 'application/json',
+    'access-control-allow-origin': '*'
+  },
+  body
+})

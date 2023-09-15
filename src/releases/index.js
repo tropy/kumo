@@ -1,4 +1,5 @@
 import { Release } from './release'
+import { json } from '../http.js'
 
 export async function handler(event) {
   let {
@@ -27,5 +28,5 @@ export async function handler(event) {
     offset
   })
 
-  return releases.map(r => r.toJSON())
+  return json(releases.map(r => r.toJSON()))
 }

@@ -3,7 +3,7 @@
   "repository": "https://github.com/tropy/tropy",
   "releases": [
     {
-      "version": "1.15.0",
+      "version": "1.15.2-beta.1",
       "build": {
         "darwin": {
           "x64": true,
@@ -13,9 +13,43 @@
           "x64": true
         },
         "win32": {
-          "x64": "D035A784C4329FAB98E0585C161EF75D44CAC2F9 tropy-1.15.0-full.nupkg 117645105",
-          "arm64": "CEEF6B3FE0EA8FA47C021616D730D1A089B9B04E tropy-1.15.0-full.nupkg 117629459",
-          "ia32": "21BD391654A2B5CCADCC4667796372147F608D33 tropy-1.15.0-full.nupkg 110504160"
+          "x64": "83203077411A1DF6A587E7728096ED47320E2D54 tropy-beta-1.15.2-beta1-full.nupkg 117799647",
+          "arm64": "A7AABF9C4756A26B9B070A86357EF58ED69F62AC tropy-beta-1.15.2-beta1-full.nupkg 117666728",
+          "ia32": "D12D2B77AA248CA29F7C63493B93E43EE54647B0 tropy-beta-1.15.2-beta1-full.nupkg 110645975"
+        }
+      }
+    },
+    {
+      "version": "1.15.1",
+      "build": {
+        "darwin": {
+          "x64": true,
+          "arm64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "A7627A4716BF9E629EAE0FE54A9E65D4C8422B56 tropy-1.15.1-full.nupkg 117766483",
+          "arm64": "8018F37278D9D6B976D66B620FE2FB27EF39C41E tropy-1.15.1-full.nupkg 117655241",
+          "ia32": "D8ECF0CAB3FD9B4A4CE383DCDCD684D0E07DD3D4 tropy-1.15.1-full.nupkg 110619181"
+        }
+      }
+    },
+    {
+      "version": "1.15.1-beta.1",
+      "build": {
+        "darwin": {
+          "x64": true,
+          "arm64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "12439FA2D606D70DEC4921686C23D13365005607 tropy-beta-1.15.1-beta1-full.nupkg 117766791",
+          "arm64": "20FF9B2C92128ED49F82CC4604B7030E47AEFF12 tropy-beta-1.15.1-beta1-full.nupkg 117654140",
+          "ia32": "981EF456EADD24D012E743C9177E0068CC463A38 tropy-beta-1.15.1-beta1-full.nupkg 110617659"
         }
       }
     },

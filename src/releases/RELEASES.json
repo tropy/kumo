@@ -3,6 +3,23 @@
   "repository": "https://github.com/tropy/tropy",
   "releases": [
     {
+      "version": "1.16.2",
+      "build": {
+        "darwin": {
+          "x64": true,
+          "arm64": true
+        },
+        "linux": {
+          "x64": true
+        },
+        "win32": {
+          "x64": "823E9D3093CEF82F1A1271FC5CBD07F7D482C743 tropy-1.16.2-full.nupkg 125628600",
+          "arm64": "112E5AB928883BD7910CF0575450557B03294CF6 tropy-1.16.2-full.nupkg 125269614",
+          "ia32": "FBA3A30E72EDF9C294CBAA5CD822F18E491320BF tropy-1.16.2-full.nupkg 112074037"
+        }
+      }
+    },
+    {
       "version": "1.16.2-beta.2",
       "build": {
         "darwin": {

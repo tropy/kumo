@@ -3,7 +3,7 @@ import { Release } from '../releases/release'
 import { badRequest, noContent } from '../http'
 
 export async function handleUpdateRequest({ arch, channel, version }, event) {
-  if (lteHighSierra(event?.headers?.['User-Agent']))
+  if (lteMojave(event?.headers?.['User-Agent']))
     return noContent()
 
   version = parse(version)
@@ -23,5 +23,5 @@ export async function handleUpdateRequest({ arch, channel, version }, event) {
   return release.getUpdateInfo('darwin', arch) || noContent()
 }
 
-const lteHighSierra = (UA) =>
-  (UA?.match(/Tropy.*Darwin\/(\d+)\.\d/))?.[1] < 18
+const lteMojave = (UA) =>
+  (UA?.match(/Tropy.*Darwin\/(\d+)\.\d/))?.[1] < 19

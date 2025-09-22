@@ -45,8 +45,19 @@ describe('UpdateFunction', () => {
     it('responds with 204 for macOS below High Sierra', async () => {
       let event = E('update-darwin-x64')
       event.headers['User-Agent'] = 'Tropy/Darwin/16.6.0'
-
       expect(await handler(event)).to.have.property('statusCode', 204)
+    })
+
+    it('responds with 204 for macOS below Big Sur', async () => {
+      let event = E('update-darwin-arm64')
+      event.headers['User-Agent'] = 'Tropy/Darwin/20.6.0'
+      expect(await handler(event)).to.have.property('statusCode', 204)
+    })
+
+    it('responds with update for macOS above Big Sur', async () => {
+      let event = E('update-darwin-arm64')
+      event.headers['User-Agent'] = 'Tropy/Darwin/21.0.0'
+      expect(await handler(E('update-darwin-arm64'))).to.have.property('url')
     })
 
     it('responds with 204 if there is no update', async () => {
